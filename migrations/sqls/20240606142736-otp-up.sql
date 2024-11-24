@@ -1,0 +1,7 @@
+CREATE TABLE IF NOT EXISTS otp (
+  id SERIAL PRIMARY KEY,
+  user_id INT NOT NULL,
+  otp VARCHAR(255),
+  expires_at TIMESTAMP,
+  datetime_created TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
