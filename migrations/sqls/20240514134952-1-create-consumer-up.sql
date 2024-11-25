@@ -18,6 +18,8 @@ CREATE TABLE IF NOT EXISTS users (
     first_name VARCHAR(50) NOT NULL,
     last_name VARCHAR(50) NOT NULL,
     email VARCHAR(100) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    ghana_ecowas_number VARCHAR(20) UNIQUE NOT NULL,
     phone_number VARCHAR(20) NOT NULL,  
     home_address TEXT,
     date_of_birth DATE,
@@ -26,3 +28,4 @@ CREATE TABLE IF NOT EXISTS users (
     expenses DECIMAL(10,2),
     is_verified BOOLEAN DEFAULT false
 );
+

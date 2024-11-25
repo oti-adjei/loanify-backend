@@ -4,14 +4,14 @@ import { UserRepository } from '../repository';
 import { StatusCodes } from 'http-status-codes';
 import {
   sanitizeInput,
-  NullableString,
+  // NullableString,
 
 } from '../../../shared/helpers/sanitize.input';
 import {
-  ConsumerUserType,
   CreateUserSchema,
   LoginValidator,
   SendPhoneNumberOtpValidator,
+  UpdateUserSchema,
   VerifyPhoneNumberOtpValidator,
 } from '../validation/index';
 import { GenericHelper } from '../../../shared/helpers/generic.helper';
@@ -75,14 +75,16 @@ export class UserService {
     try {
       const {
         first_name,
-        surname,
+        last_name,
         email,
-        ghana_ecowas_number,
-        mobile_number,
-        whatsapp_number,
-        city,
         password,
-        type
+        ghana_ecowas_number,
+        phone_number,
+        home_address,
+        date_of_birth,
+        occupation,
+        income,
+        expenses,
       } = request;
 
       const salt = await GenericHelper.GenerateSalt();
@@ -105,14 +107,16 @@ export class UserService {
 
       const user = await UserRepository.createPersonalUser(
         first_name,
-        surname,
+        last_name,
         email,
+        password,
         ghana_ecowas_number,
-        mobile_number,
-        whatsapp_number,
-        city,
-        request.password,
-        type as ConsumerUserType,
+        phone_number,
+        home_address,
+        date_of_birth,
+        occupation,
+        income?? 0,
+        expenses?? 0,
       );
       if (!user) {
         throw new ApiError(StatusCodes.BAD_REQUEST, 'Cannot create user');
@@ -126,23 +130,18 @@ export class UserService {
     }
   };
 
-  static updateUser = async (
-    id: number,
-    name: NullableString,
-    email: NullableString,
-    password: NullableString,
-  ) => {
-    // Convert undefined values to null
-    const sanitizedName = sanitizeInput(name);
-    const sanitizedEmail = sanitizeInput(email);
-    const sanitizedPassword = sanitizeInput(password);
-    try {
-      const user = await UserRepository.updateUser(
-        id,
-        sanitizedName,
-        sanitizedEmail,
-        sanitizedPassword,
-      );
+  //Update User using possible Partial payload
+  static updateUser = async (id: number, payload: Partial<UpdateUserSchema>) => {
+    // Sanitize and validate the entire payload
+  const sanitizedPayload = Object.fromEntries(
+    Object.entries(payload).map(([key, value]) => [key, sanitizeInput(value)]),
+  );
+
+  try {
+    // Pass the sanitized payload to the repository
+    const user = await UserRepository.updateUser(id, sanitizedPayload);
+
+  
       if (!user) {
         throw new ApiError(StatusCodes.NOT_FOUND, 'User not found');
       }
@@ -155,6 +154,7 @@ export class UserService {
       throw error;
     }
   };
+  
 
   static deleteUser = async (id: number) => {
     try {
@@ -213,7 +213,7 @@ export class UserService {
     request: SendPhoneNumberOtpValidator,
   ): Promise<any> => {
     try {
-      const { mobile_number,type } = request;
+      const { mobile_number } = request;
 
       const user = await UserRepository.getUserByPhoneNumber(mobile_number);
       if (!user) {
@@ -228,7 +228,7 @@ export class UserService {
         '5m',
       );
       console.log("========hashed otp no nie",hashedOtp);
-      await UserRepository.upadteOtp(user.user_id, hashedOtp,type);
+      await UserRepository.upadteOtp(user.user_id, hashedOtp);
 
       await GenericHelper.sendSMS(mobile_number, otp);
       return { otp, id: user.user_id };
@@ -246,7 +246,7 @@ export class UserService {
   ): Promise<any> => {
 
     try {
-      const { otp,type } = request;
+      const { otp } = request;
       console.log(otp);
 
       const verifiedStatus = await UserRepository.checkIfVerified(userId)
@@ -262,7 +262,7 @@ export class UserService {
         otp,
         Env.get('ENVOYER_SECRET'),
         userId,
-        type
+        
       );
       
       const isVerified = UserRepository.setIsVerified(userId)

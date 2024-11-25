@@ -38,6 +38,43 @@ export class LoanService {
     }
   };
 
+  static fetchAllLoans = async () => {
+    try {
+      const loans = await LoanRepository.fetchAllLoans();
+      if (!loans || loans.length === 0) {
+        throw new ApiError(StatusCodes.NOT_FOUND, 'No loans found');
+      }
+      return loans;
+    } catch (error) {
+      _logger.error(
+        '[LoanService]::Something went wrong when fetching all loans',
+        error,
+      );
+      throw error;
+    }
+  };
+  static fetchLoanStatus = async (id: number) => {
+    try {
+      // check if loan exists
+      const loanExists = await LoanRepository.fetchLoan(id);
+      if (!loanExists) {
+        throw new ApiError(StatusCodes.NOT_FOUND, 'Loan not found to check status');
+      }
+      const loan = await LoanRepository.fetchLoanStatus(id);
+      if (!loan) {
+        throw new ApiError(StatusCodes.NOT_FOUND, 'Loan not found');
+      }
+      
+      return loan;
+    } catch (error) {
+      _logger.error(
+        '[LoanService]::Something went wrong when fetching loan status',
+        error,
+      );
+      throw error;
+    }
+  };
+
   static createLoan = async (userId: number, loanAmount: number, loanTerm: number, interestRate: number, purpose: string, applicationDate: Date, status: string) => {
     try {
       const loan = await LoanRepository.createLoan(userId, loanAmount, loanTerm, interestRate, purpose, applicationDate, status);

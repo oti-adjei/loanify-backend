@@ -9,15 +9,16 @@ const router = express.Router();
 
 const { validateRequest } = ValidationMiddleware;
 
-router.get(
-  '/:id',
-  validateRequest(fetchUserByIdSchema),
-  tryCatch(UserController.fetchUser),
-);
 
 router.get(
-  '/all/users',
+  '/all',
   tryCatch(UserController.fetchAllUsers),
+);
+
+router.post(
+  '/login',
+  validateRequest(loginValidator),
+  tryCatch(UserController.login),
 );
 
 router.post(
@@ -33,9 +34,9 @@ router.post(
 );
 
 router.post(
-  '/login',
-  validateRequest(loginValidator),
-  tryCatch(UserController.login),
+  '/users',
+  validateRequest(createUserSchema),
+  tryCatch(UserController.createUser),
 );
 
 router.get(
@@ -44,10 +45,10 @@ router.get(
   tryCatch(UserController.fetchUserByEmail),
 );
 
-router.post(
-  '/users',
-  validateRequest(createUserSchema),
-  tryCatch(UserController.createUser),
+router.get(
+  '/:id',
+  validateRequest(fetchUserByIdSchema),
+  tryCatch(UserController.fetchUser),
 );
 
 router.put(

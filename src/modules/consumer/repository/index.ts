@@ -2,26 +2,28 @@ import { UserAccount, UserAccountEmail, } from '../../../shared/helpers/sanitize
 import { sqlQuest } from '../../../config/database';
 import Logger from '../../../config/logger';
 import { userQueries } from '../queries';
-import { ConsumerUserType } from '../validation';
+import { UpdateUserSchema } from '../validation';
 
 const _logger = new Logger('UserRepository');
 
 
 export class UserRepository {
   static createPersonalUser = async (first_name: string,
-    surname: string,
+   last_name: string,
     email: string,
-    ghana_ecowas_number: string,
-    mobile_number: string,
-    whatsapp_number: string,
-    city: string,
     password: string,
-    type: ConsumerUserType ) => {
+    ghana_ecowas_number: string,
+    phone_number: string,
+    home_address: string,
+    date_of_birth: string,
+    occupation: string,
+    income: number,
+    expenses: number
+    ) => {
     try {
-      const  user = await sqlQuest.one(userQueries.createPersonalUser, [first_name, surname , email, ghana_ecowas_number, mobile_number, whatsapp_number, city , password,type]);
-      const storeuser = await sqlQuest.one(userQueries.storeOtp, [user.id,type ]);
-
-      return { user , storeuser };
+      const  user = await sqlQuest.one(userQueries.createPersonalUser, [first_name, last_name, email, password, ghana_ecowas_number, phone_number, home_address, date_of_birth, occupation, income, expenses,]);
+     
+      return { user };
     } catch (error) {
       _logger.error(
         '[UserRepository]::Something went wrong when creating user',
@@ -69,9 +71,40 @@ export class UserRepository {
     }
   };
 
-  static updateUser = async (id: number, name: string | null, email: string | null, password: string | null) => {
+  static updateUser = async (
+    id: number,
+    sanitizedPayload: Partial<UpdateUserSchema> // This will contain only the fields to update
+  ) => {
     try {
-      const user = await sqlQuest.one(userQueries.updateUser, [name, email, password, id]);
+      // Extract the keys from the sanitized payload
+      const {
+        first_name,
+        last_name,
+        email,
+        password,
+        ghana_ecowas_number,
+        phone_number,
+        home_address,
+        date_of_birth,
+        occupation,
+        income,
+        expenses,
+      } = sanitizedPayload;
+     
+      const user = await sqlQuest.one(userQueries.updateUser, [
+        first_name,
+        last_name,
+        email,
+        password,
+        ghana_ecowas_number,
+        phone_number,
+        home_address,
+        date_of_birth,   
+        occupation,
+        income,
+        expenses,
+        id
+        ]);
       return user;
     } catch (error) {
       _logger.error(
@@ -183,9 +216,9 @@ export class UserRepository {
       throw err;
     }
   };
-  static upadteOtp = async (userId: string, otp: string,type:string): Promise<void> => {
+  static upadteOtp = async (userId: string, otp: string): Promise<void> => {
     try {
-      await sqlQuest.none(userQueries.updateOtp, [otp, userId, type]);
+      await sqlQuest.none(userQueries.updateOtp, [otp, userId]);
       return;
     } catch (err) {
       _logger.error(

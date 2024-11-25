@@ -1,21 +1,6 @@
 import z from 'zod';
 
 
-export enum ConsumerUserType {
-  Business = 'business',
-  Personal = 'personal',
-  FreightForwarders = 'freight_forwarders',
-  ClearingAgent = 'clearing_agent',
-}
-
-export enum SendUserType {
-  Business = 'business',
-  Personal = 'personal',
-  FreightForwarders = 'freight_forwarders',
-  ClearingAgent = 'clearing_agent',
-  Rider = 'rider',
-  Driver = 'driver',
-}
 
 export const fetchUserByIdSchema = z.object({
   id: z.coerce.number(),
@@ -30,35 +15,25 @@ export const loginValidator = z.object({
   password: z.string()
 });
 
-
 export const verifyPhoneNumberOtpValidator = z.object({
   otp: z.number(),
-  type: z.nativeEnum(SendUserType),
-});
+  });
 
 export const sendPhoneNumberOtpValidator = z.object({
   mobile_number: z.string(),
-  type: z.nativeEnum(SendUserType),
-});
+  });
 
 export const fetchAllUserSchema = z.object({
   first_name: z.string(),
-  surname : z.string(),
+  last_name: z.string(),
   ghana_ecowas_number: z.string(),
   mobile_number: z.string(),
-  whatsapp_number: z.string(),
-  city: z.string(),
   email: z.string(),
-  type: z.nativeEnum(ConsumerUserType),
   });
 
 export const createUserSchema = z.object({
-  first_name: z.string().min(3).max(255),
-  surname : z.string().min(3).max(255),
-  ghana_ecowas_number: z.string(),
-  mobile_number: z.string(),
-  whatsapp_number: z.string(),
-  city: z.string(),
+  first_name: z.string().min(3).max(50),
+  last_name: z.string().min(3).max(50),
   email: z.string().email(),
   password: z
     .string()
@@ -67,21 +42,35 @@ export const createUserSchema = z.object({
       /^(?=.*[a-zA-Z0-9])(?=.*[!@#$%^&*()-_=+{};:'"\\|,.<>?/]).*$/,
       'Password must contain at least one uppercase letter, one lowercase letter, and one digit',
     ),
-    type: z.nativeEnum(ConsumerUserType),
+  ghana_ecowas_number: z.string().min(12).max(15),
+  phone_number: z.string().min(10).max(20),
+  home_address: z.string(),
+  date_of_birth: z.coerce.string().date(),
+  occupation: z.string(),
+  income: z.number().optional(),
+  expenses: z.number().optional(),
   });
 
 export const updateUserSchema = z.object({
   id: z.coerce.number(),
-  name: z.string().nullish(),
-  email: z.string().email().nullish(),
+  first_name: z.string().min(3).max(50).optional(),
+  last_name: z.string().min(3).max(50).optional(),
+  email: z.string().email().optional(),
   password: z
     .string()
     .min(8, 'Password must be at least 8 characters long')
     .regex(
       /^(?=.*[a-zA-Z0-9])(?=.*[!@#$%^&*()-_=+{};:'"\\|,.<>?/]).*$/,
       'Password must contain at least one uppercase letter, one lowercase letter, and one digit',
-    ).nullish(),
-});
+    ).optional(),
+  ghana_ecowas_number: z.string().min(20).max(20).optional(),
+  phone_number: z.string().min(10).max(20).optional(),
+  home_address: z.string().optional(),
+  date_of_birth: z.string().datetime().optional(),
+  occupation: z.string().optional(),
+  income: z.number().optional(),
+  expenses: z.number().optional(),
+  });
 
 export const deleteUserSchema = z.object({
   id: z.coerce.number(),
@@ -95,4 +84,3 @@ export type DeleteUserSchema = z.infer<typeof deleteUserSchema>;
 export type LoginValidator = z.infer<typeof loginValidator>;
 export type SendPhoneNumberOtpValidator = z.infer<typeof sendPhoneNumberOtpValidator>;
 export type VerifyPhoneNumberOtpValidator = z.infer<typeof verifyPhoneNumberOtpValidator>;
-

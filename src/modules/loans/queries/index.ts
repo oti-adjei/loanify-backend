@@ -1,9 +1,17 @@
 const fetchLoan = `
-SELECT * FROM loans WHERE id = $1
+SELECT * FROM loans WHERE loan_id = $1
 `;
 
 const fetchLoansByUserId = `
 SELECT * FROM loans WHERE user_id = $1
+`;
+
+const fetchAllLoans = `
+SELECT * FROM loans
+`;
+
+const fetchLoanStatus = `
+SELECT status FROM loans WHERE loan_id = $1
 `;
 
 const createLoan = `
@@ -27,7 +35,8 @@ RETURNING *
 export const LoanQueries = {
   fetchLoan,
   fetchLoansByUserId,
-
+  fetchAllLoans,
+  fetchLoanStatus,
   createLoan,
   updateLoan,
   deleteLoan,

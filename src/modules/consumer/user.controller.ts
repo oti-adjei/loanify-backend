@@ -3,7 +3,7 @@ import { Request, Response } from 'express';
 import Logger from '../../config/logger';
 import { UserService } from './service';
 import { StatusCodes } from 'http-status-codes';
-import { FetchUserByIdSchema, FetchUserByEmailSchema, CreateUserSchema, UpdateUserSchema, DeleteUserSchema, SendPhoneNumberOtpValidator, VerifyPhoneNumberOtpValidator, SendUserType, } from './validation';
+import { FetchUserByIdSchema, FetchUserByEmailSchema, CreateUserSchema, UpdateUserSchema, DeleteUserSchema, SendPhoneNumberOtpValidator, VerifyPhoneNumberOtpValidator } from './validation';
 // import { RiderService } from '../courier/service';
 
 const _logger = new Logger('UserController');
@@ -90,9 +90,9 @@ export class UserController {
   static updateUser = async (req: any, res: any) => {
     try {
       const { id } = req.params as UpdateUserSchema;
-      const { name, email, password } = req.body as UpdateUserSchema;
+      const payload = req.body as Partial<UpdateUserSchema>;
 
-      const user = await UserService.updateUser(id, name, email, password);
+      const user = await UserService.updateUser(id, payload);
       const response = new ResponseHandler(req, res);
       response.success({
         message: 'User updated successfully',
@@ -128,7 +128,7 @@ export class UserController {
     }
   };
 
-  static login = async (req: Request, res: Response) => {
+  static login = async (req: any, res: any) => {
     try {
       _logger.log('[UserController]::Logging in user');
       const payload = req.body;
@@ -154,15 +154,9 @@ export class UserController {
     try {
       _logger.log('[UserController]::Sending phone number otp');
       const payload = req.body as SendPhoneNumberOtpValidator;
-      const type = payload.type;
       let otp;
-      if (type ===SendUserType.Business || type ===SendUserType.Personal || type ===SendUserType.ClearingAgent || type ===SendUserType.FreightForwarders) {
-        otp = await UserService.sendPhoneNumberOtp(payload);
-      } else if (type === SendUserType.Rider || type === SendUserType.Driver) {
-        otp = await UserService.sendPhoneNumberOtp(payload);
-      } else {
-        throw new Error('Invalid type provided');
-      }
+     
+      otp = await UserService.sendPhoneNumberOtp(payload);
 
       const response = new ResponseHandler(req, res);
       response.success({
@@ -184,16 +178,11 @@ export class UserController {
       _logger.log('[UserController]::Verifying phone number otp');
       const payload = req.body as VerifyPhoneNumberOtpValidator;
       const userId = (req as any).userId;
-      const type = payload.type;
+
 
       let user
-      if (type === SendUserType.Business || type === SendUserType.Personal || type === SendUserType.ClearingAgent || type === SendUserType.FreightForwarders) {
-         user  = await UserService.verifyPhoneNumberOtp(payload,userId);
-      } else if (type === SendUserType.Rider || type === SendUserType.Driver) {
-         user = await UserService.verifyPhoneNumberOtp(payload,userId);
-      } else {
-        throw new Error('Invalid type provided');
-      }
+     
+      user = await UserService.verifyPhoneNumberOtp(payload,userId);
 
       const response = new ResponseHandler(req, res);
       response.success({
