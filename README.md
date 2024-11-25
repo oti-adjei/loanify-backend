@@ -43,9 +43,8 @@ Loanify is a simple yet robust web interface and API designed to streamline the 
 
 ### **Frontend Development**
 * [✅] Design inspiration for the user interface for loan application and status check
-* [ ] Implement Flutter for the frontend
-* [ ] Integrate the frontend with the backend API
-* [ ] Test the frontend for usability
+* [⏳] Implement Flutter for the frontend
+* [⏳] Integrate the frontend with the backend API
 
 ### **Backend Development**
 * [✅] Set up the backend framework (Django, Flask, Spring Boot, etc.)
@@ -65,7 +64,7 @@ Loanify is a simple yet robust web interface and API designed to streamline the 
 ### **Deployment**
 * [✅] Containerize the application using Docker
 * [✅] Set up a CI/CD pipeline (Jenkins, GitLab CI/CD, etc.)
-* [ ] Automate the deployment process using IaC tools (Terraform, Ansible, etc.)
+* [⏳] Automate the deployment process using IaC tools (Terraform, Ansible, etc.)
 * [ ] Deploy the application to the production environment
 
 ### **Security**
@@ -77,7 +76,7 @@ Loanify is a simple yet robust web interface and API designed to streamline the 
 
 ### **Documentation**
 * [✅] Create detailed technical documentation(POSTMAN)
-* [ ] Document the deployment process
+* [⏳] Document the deployment process
 * [ ] Create a project report summarizing the project
 
 
