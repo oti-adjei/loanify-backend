@@ -29,7 +29,10 @@ COPY --from=build /usr/src/app/dist ./dist
 
 # Copy additional files needed at runtime
 COPY database.json ./database.json
-COPY logs ./logs
+RUN mkdir -p logs
+RUN mkdir -p migrations
+
+# COPY logs ./logs
 COPY migrations ./migrations
 
 # Expose the application port
