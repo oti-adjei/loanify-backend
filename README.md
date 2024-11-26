@@ -61,6 +61,12 @@ Loanify is a simple yet robust web interface and API designed to streamline the 
 * [ ] Configure load balancing and auto-scaling
 * [ ] Implement monitoring and alerting
 
+## *Building the Application Project
+* [✅]Containerize the application using  Docker
+* [✅]Setup Github Actions
+* [✅]Setup ECR infastructure
+* [✅]Build and push DockerImage to ECR using Github Actions after every push or on pull request
+
 ### **Deployment**
 * [✅] Containerize the application using Docker
 * [✅] Set up a CI/CD pipeline (Jenkins, GitLab CI/CD, etc.)
