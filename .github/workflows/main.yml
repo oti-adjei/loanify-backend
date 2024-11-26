@@ -75,8 +75,8 @@ jobs:
       # Step 4: Configure AWS credentials and checking S3 bucket exist to store terraform state
       - name: Ensure Terraform backend S3 bucket exists
         run: |
-          aws s3api head-bucket --bucket my-terraform-state-bobby || \
-          aws s3api create-bucket --bucket my-terraform-state-bobby --region us-east-1
+          aws s3api head-bucket --bucket loanify-terraform-state-bucket || \
+          aws s3api create-bucket --bucket loanify-terraform-state-bucket --region us-east-1
 
 
       # Step 5: Lint Terraform code

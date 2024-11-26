@@ -1,5 +1,5 @@
 variable "aws_account_id" {
-  description = "Your AWS Account ID"
+  description = 559050247232
 }
 
 variable "aws_region" {
