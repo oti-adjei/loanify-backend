@@ -42,8 +42,11 @@ Loanify is a simple yet robust web interface and API designed to streamline the 
 **Project To-Do List**
 
 ### **Frontend Development**
+Frontend Repository Link :- https://github.com/oti-adjei/loanify-mobile
+
 * [✅] Design inspiration for the user interface for loan application and status check
 * [⏳] Implement Flutter for the frontend
+* [⏳] Use Riverpod for state management
 * [⏳] Integrate the frontend with the backend API
 
 ### **Backend Development**
