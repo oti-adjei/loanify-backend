@@ -101,7 +101,9 @@ jobs:
 
       # Step 8: Apply Terraform changes
       - name: Terraform Apply
-        run: terraform apply -auto-approve -chdir=terraform
+        run: |
+            cd terraform
+            terraform apply -auto-approve
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
