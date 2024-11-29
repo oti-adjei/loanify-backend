@@ -99,6 +99,16 @@ jobs:
       - name: Terraform Init
         run: terraform -chdir=terraform init
 
+      # Step 8: Validate Terraform code
+      - name: Terraform Validate
+        run: terraform -chdir=terraform validate
+
+      # Step 9: Plan Terraform changes
+      - name: Terraform Plan
+        run: |
+            cd terraform
+            terraform plan
+
       # Step 8: Apply Terraform changes
       - name: Terraform Apply
         run: |
