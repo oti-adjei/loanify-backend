@@ -1,5 +1,6 @@
 variable "aws_account_id" {
   description = 559050247232
+  default = "559050247232"
 }
 
 variable "aws_region" {
