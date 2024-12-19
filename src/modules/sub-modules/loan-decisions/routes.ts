@@ -42,4 +42,4 @@ router.delete(
 );
 
 // Export the router
-module.exports = router;
+export const LoanDecisionRouter = router;

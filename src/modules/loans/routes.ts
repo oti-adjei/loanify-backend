@@ -38,8 +38,6 @@ router.get(
   tryCatch(LoanController.fetchLoansByUserId)
 );
 
-
-
 router.get(
   '/:id',
   validateRequest(fetchLoanByIdSchema),

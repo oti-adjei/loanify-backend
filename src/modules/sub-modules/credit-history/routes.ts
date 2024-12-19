@@ -13,6 +13,14 @@ const { validateRequest } = ValidationMiddleware;
 
 
 // Route definitions
+
+
+router.post(
+  '/',
+  validateRequest(createCreditHistorySchema),
+  tryCatch(CreditHistoryController.createCreditHistory)
+);
+
 router.get(
   '/:id',
   validateRequest(fetchCreditHistoryByIdSchema),
@@ -24,13 +32,6 @@ router.get(
   validateRequest(fetchCreditHistoryByIdSchema),
   tryCatch(CreditHistoryController.fetchCreditHistoriesByUserId)
 );
-
-router.post(
-  '/',
-  validateRequest(createCreditHistorySchema),
-  tryCatch(CreditHistoryController.createCreditHistory)
-);
-
 router.put(
   '/:id',
   validateRequest(updateCreditHistorySchema),

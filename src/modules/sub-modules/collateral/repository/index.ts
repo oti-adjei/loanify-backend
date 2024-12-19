@@ -2,6 +2,8 @@ import { NullableString } from 'src/shared/helpers/sanitize.input';
 import { sqlQuest } from '../../../../config/database';
 import Logger from '../../../../config/logger';
 import { CollateralQueries } from '../queries';
+import { ApiError } from '../../../../shared/utils/api.error';
+import { StatusCodes } from 'http-status-codes';
 
 const _logger = new Logger('CollateralRepository');
 
@@ -21,11 +23,11 @@ export class CollateralRepository {
 
   static fetchCollateralsByLoanId = async (Id: number) => {
     try {
-      const messages = await sqlQuest.manyOrNone(CollateralQueries.fetchCollateralsByLoanId, [Id]);
-      return messages;
+      const collateral = await sqlQuest.manyOrNone(CollateralQueries.fetchCollateralsByLoanId, [Id]);
+      return collateral;
     } catch (error) {
       _logger.error(
-        '[CollateralRepository]::Something went wrong when fetching chat messages by sender ID',
+        '[CollateralRepository]::Something went wrong when fetching collateral by loan ID',
         error,
       );
       throw error;
@@ -40,9 +42,12 @@ export class CollateralRepository {
       return Collateral;
     } catch (error) {
       _logger.error(
-        '[CollateralRepository]::Something went wrong when creating chat message',
+        '[CollateralRepository]::Something went wrong when creating collateral',
         error,
       );
+      if (error.code === '23503') { // PostgreSQL foreign key violation
+       throw new ApiError(StatusCodes.BAD_REQUEST, 'Invalid loan_id: the loan does not exist.');
+      }
       throw error;
     }
   };

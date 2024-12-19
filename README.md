@@ -7,6 +7,9 @@ Loanify is a simple yet robust web interface and API designed to streamline the 
 ## **Features**
 
 ### **Core API Endpoints**
+
+   **Postman Doumentation** :-https://elements.getpostman.com/redirect?entityId=15310325-2b381eee-cfbb-4a3c-bb69-0b39a1fe34cb&entityType=collection
+
 1. **Loan Application**
    - **Endpoint**: `POST /apply-loan`
    - **Description**: Submit a loan application with customer details, loan amount, and tenure.
@@ -34,6 +37,57 @@ Loanify is a simple yet robust web interface and API designed to streamline the 
        "status": "Pending"
      }
      ```
+
+
+**Project To-Do List**
+
+### **Frontend Development**
+Frontend Repository Link :- https://github.com/oti-adjei/loanify-mobile
+
+* [✅] Design inspiration for the user interface for loan application and status check
+* [⏳] Implement Flutter for the frontend
+* [⏳] Use Riverpod for state management
+* [⏳] Integrate the frontend with the backend API
+
+### **Backend Development**
+* [✅] Set up the backend framework (Django, Flask, Spring Boot, etc.)
+* [✅] Implement API endpoints for loan application and status check
+* [✅] Validate input data and handle errors
+* [✅] Implement database interactions (PostgreSQL, MySQL, MongoDB, etc.)
+* [✅] Secure sensitive data (e.g., encryption)
+* [✅] Implement logging and error tracking
+
+### **Infrastructure Setup**
+* [✅] Set up the infrastructure (cloud provider: AWS, GCP, Azure, etc.)
+* [ ] Configure the network and security settings
+* [ ] Set up the database and application server
+* [ ] Configure load balancing and auto-scaling
+* [ ] Implement monitoring and alerting
+
+## *Building the Application Project
+* [✅]Containerize the application using  Docker
+* [✅]Setup Github Actions
+* [✅]Setup ECR infastructure
+* [✅]Build and push DockerImage to ECR using Github Actions after every push or on pull request
+
+### **Deployment**
+* [✅] Containerize the application using Docker
+* [✅] Set up a CI/CD pipeline (Jenkins, GitLab CI/CD, etc.)
+* [⏳] Automate the deployment process using IaC tools (Terraform, Ansible, etc.)
+* [ ] Deploy the application to the production environment
+
+### **Security**
+* [ ] Implement HTTPS for secure communication
+* [ ] Secure database credentials
+* [ ] Enable encryption for data at rest and in transit
+* [ ] Implement authentication and authorization mechanisms
+* [ ] Conduct security testing and vulnerability scanning
+
+### **Documentation**
+* [✅] Create detailed technical documentation(POSTMAN)
+* [⏳] Document the deployment process
+* [ ] Create a project report summarizing the project
+
 
 ### **User Management**
 - **Sign Up**: Users can register with their details.

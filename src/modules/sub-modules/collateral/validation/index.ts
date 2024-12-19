@@ -1,11 +1,11 @@
 import z from 'zod';
 
 export const fetchCollateralByIdSchema = z.object({
-  id: z.number(),
+  id: z.coerce.number(),
 });
 
 export const fetchCollateralsByLoanIdSchema = z.object({
-  loanId: z.number(),
+  loanId: z.coerce.number(),
 });
 
 export const createCollateralSchema = z.object({

@@ -1,5 +1,5 @@
 const fetchCollateral = `
-SELECT * FROM collateral WHERE id = $1
+SELECT * FROM collateral WHERE collateral_id = $1
 `;
 
 const fetchCollateralsByLoanId = `
