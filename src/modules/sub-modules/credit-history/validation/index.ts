@@ -1,11 +1,11 @@
 import z from 'zod';
 
 export const fetchCreditHistoryByIdSchema = z.object({
-  id: z.number(),
+  id: z.coerce.number(),
 });
 
 export const fetchCreditHistoryByUserIdSchema = z.object({
-  userId: z.number(),
+  userId: z.coerce.number(),
 });
 
 export const createCreditHistorySchema = z.object({

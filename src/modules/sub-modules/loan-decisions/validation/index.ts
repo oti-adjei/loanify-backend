@@ -10,7 +10,7 @@ export const fetchLoanDecisionsByLoanIdSchema = z.object({
 
 export const createLoanDecisionSchema = z.object({
   loanId: z.number(),
-  decisionDate: z.date(),
+  decisionDate: z.coerce.date(),
   decisionStatus: z.enum(['approved', 'rejected', 'pending']),
   reason: z.string().optional(),
   approvedBy: z.number(), // Assuming approvedBy is a user ID

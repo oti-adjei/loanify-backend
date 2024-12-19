@@ -12,23 +12,24 @@ const router = express.Router();
 const { validateRequest } = ValidationMiddleware;
 
 // Route definitions
-router.get(
-  '/:id',
-  validateRequest(fetchCollateralByIdSchema),
-  tryCatch(CollateralController.fetchCollateral
-));
-
-router.get(
-  '/sender/:senderId',
-  validateRequest(fetchCollateralByIdSchema),
-  tryCatch(CollateralController.fetchCollateralsByLoanId)
-);
 
 router.post(
   '/',
   validateRequest(createCollateralSchema),
   tryCatch(CollateralController.createCollateral)
 );
+
+router.get(
+  '/sender/:id',
+  validateRequest(fetchCollateralByIdSchema),
+  tryCatch(CollateralController.fetchCollateralsByLoanId)
+);
+
+router.get(
+  '/:id',
+  validateRequest(fetchCollateralByIdSchema),
+  tryCatch(CollateralController.fetchCollateral
+));
 
 router.put(
   '/:id',
@@ -43,4 +44,4 @@ router.delete(
 );
 
 // Export the router
-module.exports = router;
+export const collateralRouter = router;

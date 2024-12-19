@@ -1,5 +1,5 @@
 const fetchCreditHistory = `
-SELECT * FROM credit_history WHERE id = $1
+SELECT * FROM credit_history WHERE credit_history_id = $1
 `;
 
 const fetchCreditHistoriesByUserId = `
